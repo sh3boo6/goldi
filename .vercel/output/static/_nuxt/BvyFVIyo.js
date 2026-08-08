@@ -1,0 +1,1 @@
+import{r as e}from"./mw9jgGEO.js";var t=e(`/img/logo.png`);export{t};

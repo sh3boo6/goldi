@@ -1,1 +1,0 @@
-import{P as e,Wn as t}from"./CCkO2a_1.js";import{w as n}from"./DLRwPCI2.js";function r(r){return e(()=>!t(r)||!!n(r)?.closest(`form`))}export{r as t};

@@ -1,4 +1,4 @@
-import { w as useRuntimeConfig, n as encodePath, i as buildAssetsURL, u as publicAssetsURL, d as appRootTag, c as appRootAttrs, f as appSpaLoaderTag, e as appSpaLoaderAttrs, b as appId, l as defineRenderHandler, h as appTeleportTag, g as appTeleportAttrs, o as getQuery, j as createError, a as appHead, m as destr, r as getRouteRules, s as joinURL, q as getResponseStatusText, p as getResponseStatus, v as useNitroApp } from '../nitro/nitro.mjs';
+globalThis.__timing__.logStart('Load chunks/routes//renderer');import { w as useRuntimeConfig, n as encodePath, i as buildAssetsURL, u as publicAssetsURL, d as appRootTag, c as appRootAttrs, f as appSpaLoaderTag, e as appSpaLoaderAttrs, b as appId, l as defineRenderHandler, h as appTeleportTag, g as appTeleportAttrs, o as getQuery, j as createError, a as appHead, m as destr, r as getRouteRules, s as joinURL, q as getResponseStatusText, p as getResponseStatus, v as useNitroApp } from '../nitro/nitro.mjs';
 import { createHead as createHead$1, propsToString, renderSSRHead } from 'unhead/server';
 import { isRef, toValue } from 'vue';
 import { DeprecationsPlugin } from 'unhead/legacy';
@@ -159,7 +159,7 @@ function encodeForwardSlashes(str) {
 
 const renderSSRHeadOptions = {"omitLineBreaks":true};
 
-const entryFileName = "BAsG2Hv-.js";
+const entryFileName = "CgRwJ2NA.js";
 
 const _DRIVE_LETTER_START_RE = /^[A-Za-z]:\//;
 function normalizeWindowsPath(input = "") {
@@ -417,5 +417,5 @@ function stripInlineOnlyPayloadFields(payload) {
 	return rest;
 }
 
-export { handler as default };
+export { handler as default };;globalThis.__timing__.logEnd('Load chunks/routes//renderer');
 //# sourceMappingURL=renderer.mjs.map

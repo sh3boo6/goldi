@@ -1,1 +1,0 @@
-import{In as e,P as t}from"./CCkO2a_1.js";import{w as n}from"./DLRwPCI2.js";function r(){let r=e();return{primitiveElement:r,currentElement:t(()=>[`#text`,`#comment`].includes(r.value?.$el.nodeName)?r.value?.$el.nextElementSibling:n(r))}}export{r as t};
