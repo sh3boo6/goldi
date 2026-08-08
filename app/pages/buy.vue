@@ -191,7 +191,8 @@ onMounted(() => {
           <UInput
             :model-value="sellerPrice"
             class="w-full"
-            type="number"
+            type="text"
+            inputmode="numeric"
             min="1"
             icon="i-lucide-tag"
             size="lg"
@@ -225,7 +226,8 @@ onMounted(() => {
           <UInput
             :model-value="weight"
             class="w-full"
-            type="number"
+            type="text"
+            inputmode="numeric"
             min="0.1"
             step="0.1"
             icon="i-lucide-scale"
@@ -257,7 +259,8 @@ onMounted(() => {
           <UInput
             v-else
             :model-value="customMakingCharge"
-            type="number"
+            type="text"
+            inputmode="numeric"
             min="0"
             icon="i-lucide-hammer"
             placeholder="أدخل قيمة المصنعية التقديرية للجرام"

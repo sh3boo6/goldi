@@ -159,7 +159,8 @@ onMounted(() => {
           <UInput
             :model-value="buyerOfferPrice"
             class="w-full"
-            type="number"
+            type="text"
+            inputmode="numeric"
             min="1"
             icon="i-lucide-hand-coins"
             size="lg"
@@ -193,7 +194,8 @@ onMounted(() => {
           <UInput
             :model-value="weight"
             class="w-full"
-            type="number"
+            type="text"
+            inputmode="numeric"
             min="0.1"
             step="0.1"
             icon="i-lucide-scale"
@@ -208,7 +210,8 @@ onMounted(() => {
           <UInput
             :model-value="stonesDeduction"
             class="w-full"
-            type="number"
+            type="text"
+            inputmode="numeric"
             min="0"
             step="0.1"
             icon="i-lucide-gem"
@@ -241,7 +244,8 @@ onMounted(() => {
             v-else
             :model-value="customGramPrice"
             class="w-full"
-            type="number"
+            type="text"
+            inputmode="numeric"
             min="0"
             icon="i-lucide-dollar-sign"
             placeholder="أدخل سعر جرام الشراء المعتمد"

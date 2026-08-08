@@ -201,7 +201,8 @@ const handleClearCache = () => {
             <label class="block text-xs font-medium text-muted mb-1">السبائك والجنيهات:</label>
             <UInput
               :model-value="ingotCharge"
-              type="number"
+              type="text"
+              inputmode="numeric"
               min="0"
               @update:model-value="ingotCharge = sanitizeNumberInput($event)"
             />
@@ -210,7 +211,8 @@ const handleClearCache = () => {
             <label class="block text-xs font-medium text-muted mb-1">مشغولات سادة / خفيفة:</label>
             <UInput
               :model-value="plainCharge"
-              type="number"
+              type="text"
+              inputmode="numeric"
               min="0"
               @update:model-value="plainCharge = sanitizeNumberInput($event)"
             />
@@ -219,7 +221,8 @@ const handleClearCache = () => {
             <label class="block text-xs font-medium text-muted mb-1">مشغولات منقوشة / زركون:</label>
             <UInput
               :model-value="fancyCharge"
-              type="number"
+              type="text"
+              inputmode="numeric"
               min="0"
               @update:model-value="fancyCharge = sanitizeNumberInput($event)"
             />
@@ -228,7 +231,8 @@ const handleClearCache = () => {
             <label class="block text-xs font-medium text-muted mb-1">أطقم فاخرة / مناسبات:</label>
             <UInput
               :model-value="luxuriousCharge"
-              type="number"
+              type="text"
+              inputmode="numeric"
               min="0"
               @update:model-value="luxuriousCharge = sanitizeNumberInput($event)"
             />
