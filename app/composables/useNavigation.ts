@@ -30,6 +30,7 @@ export const useNavigation = () => {
   ])
 
   return {
-    items
+    items,
+    localePath
   }
 }

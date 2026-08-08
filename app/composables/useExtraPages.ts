@@ -30,6 +30,7 @@ export const useExtraPages = () => {
   ])
 
   return {
-    extraPages
+    extraPages,
+    localePath
   }
 }
