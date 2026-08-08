@@ -15,6 +15,13 @@
       "src": "/_nuxt/builds/(.*)"
     },
     {
+      "status": 307,
+      "headers": {
+        "Location": "/ar"
+      },
+      "src": "/"
+    },
+    {
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
       },

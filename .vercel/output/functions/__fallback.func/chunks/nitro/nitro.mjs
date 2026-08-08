@@ -3428,19 +3428,19 @@ async function dispose(driver) {
 const _assets = {
   ["i18n:0d0db12b.json"]: {
     import: () => import('../raw/0d0db12b.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"2b5a-zaH9eAtK9JXOXeC/pIVvudLAGw0\"","mtime":"2026-08-08T22:20:35.976Z"}
+    meta: {"type":"application/json","etag":"\"2b5a-zaH9eAtK9JXOXeC/pIVvudLAGw0\"","mtime":"2026-08-08T22:29:42.491Z"}
   },
   ["i18n:28423ab0.json"]: {
     import: () => import('../raw/28423ab0.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"2a22-4Le5Ie9puXrMDntvkG5EcBSCyhA\"","mtime":"2026-08-08T22:20:35.976Z"}
+    meta: {"type":"application/json","etag":"\"2a22-4Le5Ie9puXrMDntvkG5EcBSCyhA\"","mtime":"2026-08-08T22:29:42.491Z"}
   },
   ["i18n:2d359ec5.json"]: {
     import: () => import('../raw/2d359ec5.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"3276-76tJtFvxAnPziRNi9mXTxD6xqt0\"","mtime":"2026-08-08T22:20:35.975Z"}
+    meta: {"type":"application/json","etag":"\"3276-76tJtFvxAnPziRNi9mXTxD6xqt0\"","mtime":"2026-08-08T22:29:42.490Z"}
   },
   ["i18n:459c8237.json"]: {
     import: () => import('../raw/459c8237.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"2469-rQ3vbMi2/0MFl8CvfmTkYoLdm/0\"","mtime":"2026-08-08T22:20:35.975Z"}
+    meta: {"type":"application/json","etag":"\"2469-rQ3vbMi2/0MFl8CvfmTkYoLdm/0\"","mtime":"2026-08-08T22:29:42.490Z"}
   }
 };
 
@@ -4342,7 +4342,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "7257540d-297d-4321-bd79-c8ef2b382391",
+    "buildId": "fe0720a7-2a7c-403f-80fa-f8998afd3362",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -4352,6 +4352,12 @@ const _inlineRuntimeConfig = {
       "/__nuxt_error": {
         "cache": false,
         "isr": false
+      },
+      "/": {
+        "redirect": {
+          "to": "/ar",
+          "statusCode": 307
+        }
       },
       "/_nuxt/builds/meta/**": {
         "headers": {
