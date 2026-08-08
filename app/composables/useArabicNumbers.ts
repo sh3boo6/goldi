@@ -1,10 +1,13 @@
 export const useArabicNumbers = () => {
   const ARABIC_DIGITS = /[٠-٩]/g
+  const ARABIC_DECIMAL = /٫/g
 
   const toWestern = (value: string | number): string | number => {
     if (typeof value === 'number') return value
     if (typeof value !== 'string') return value
-    return value.replace(ARABIC_DIGITS, d => String.fromCharCode(d.charCodeAt(0) - 0x660 + 0x30))
+    return value
+      .replace(ARABIC_DIGITS, d => String.fromCharCode(d.charCodeAt(0) - 0x660 + 0x30))
+      .replace(ARABIC_DECIMAL, '.')
   }
 
   const sanitizeNumberInput = (value: string | number | null | undefined): number | null => {
