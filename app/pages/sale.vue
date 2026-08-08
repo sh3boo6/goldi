@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia'
 // 1. الاتصال بالإنترنت والصلة بمتجر الأسعار
 const online = useOnline()
 const ratesStore = useRatesStore()
-const { sanitizeNumberInput } = useArabicNumbers()
 const {
   goldGram24SAR,
   goldGram22SAR,
@@ -157,15 +156,13 @@ onMounted(() => {
             العرض المقدم من الصائغ للشراء منك (ر.س):
           </label>
           <UInput
-            :model-value="buyerOfferPrice"
+            v-model.number="buyerOfferPrice"
             class="w-full"
-            type="text"
-            inputmode="numeric"
+            type="number"
             min="1"
             icon="i-lucide-hand-coins"
             size="lg"
             placeholder="أدخل المبلغ المعروض عليك لشراء ذهبك"
-            @update:model-value="buyerOfferPrice = sanitizeNumberInput($event)"
           />
         </div>
 
@@ -192,15 +189,13 @@ onMounted(() => {
         <div>
           <label class="block text-sm font-medium mb-2 text-muted">الوزن الإجمالي (جرام):</label>
           <UInput
-            :model-value="weight"
+            v-model.number="weight"
             class="w-full"
-            type="text"
-            inputmode="numeric"
+            type="number"
             min="0.1"
             step="0.1"
             icon="i-lucide-scale"
             placeholder="أدخل وزن القطعة بالجرام"
-            @update:model-value="weight = sanitizeNumberInput($event)"
           />
         </div>
 
@@ -208,15 +203,13 @@ onMounted(() => {
         <div>
           <label class="block text-sm font-medium mb-2 text-muted">وزن الفصوص/الأحجار لخصمه (إن وجد):</label>
           <UInput
-            :model-value="stonesDeduction"
+            v-model.number="stonesDeduction"
             class="w-full"
-            type="text"
-            inputmode="numeric"
+            type="number"
             min="0"
             step="0.1"
             icon="i-lucide-gem"
             placeholder="وزن الأحجار أو الزركون بالجرام"
-            @update:model-value="stonesDeduction = sanitizeNumberInput($event)"
           />
         </div>
 
@@ -242,14 +235,12 @@ onMounted(() => {
 
           <UInput
             v-else
-            :model-value="customGramPrice"
+            v-model.number="customGramPrice"
             class="w-full"
-            type="text"
-            inputmode="numeric"
+            type="number"
             min="0"
             icon="i-lucide-dollar-sign"
             placeholder="أدخل سعر جرام الشراء المعتمد"
-            @update:model-value="customGramPrice = sanitizeNumberInput($event)"
           />
         </div>
 

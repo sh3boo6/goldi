@@ -3,7 +3,6 @@ import { storeToRefs } from 'pinia'
 
 // 1. استخدام متجر الأسعار
 const ratesStore = useRatesStore()
-const { sanitizeNumberInput } = useArabicNumbers()
 const { usdToSar, defaultKarat, autoVat, ingotCharge, plainCharge, fancyCharge, luxuriousCharge } = storeToRefs(ratesStore)
 
 // 2. التحكم في المظهر (Light / Dark / System)
@@ -200,41 +199,33 @@ const handleClearCache = () => {
           <div>
             <label class="block text-xs font-medium text-muted mb-1">السبائك والجنيهات:</label>
             <UInput
-              :model-value="ingotCharge"
-              type="text"
-              inputmode="numeric"
+              v-model.number="ingotCharge"
+              type="number"
               min="0"
-              @update:model-value="ingotCharge = sanitizeNumberInput($event)"
             />
           </div>
           <div>
             <label class="block text-xs font-medium text-muted mb-1">مشغولات سادة / خفيفة:</label>
             <UInput
-              :model-value="plainCharge"
-              type="text"
-              inputmode="numeric"
+              v-model.number="plainCharge"
+              type="number"
               min="0"
-              @update:model-value="plainCharge = sanitizeNumberInput($event)"
             />
           </div>
           <div>
             <label class="block text-xs font-medium text-muted mb-1">مشغولات منقوشة / زركون:</label>
             <UInput
-              :model-value="fancyCharge"
-              type="text"
-              inputmode="numeric"
+              v-model.number="fancyCharge"
+              type="number"
               min="0"
-              @update:model-value="fancyCharge = sanitizeNumberInput($event)"
             />
           </div>
           <div>
             <label class="block text-xs font-medium text-muted mb-1">أطقم فاخرة / مناسبات:</label>
             <UInput
-              :model-value="luxuriousCharge"
-              type="text"
-              inputmode="numeric"
+              v-model.number="luxuriousCharge"
+              type="number"
               min="0"
-              @update:model-value="luxuriousCharge = sanitizeNumberInput($event)"
             />
           </div>
         </div>

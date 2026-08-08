@@ -4,7 +4,6 @@ import { storeToRefs } from 'pinia'
 // 1. الاتصال بالإنترنت والصلة بمتجر الأسعار
 const online = useOnline()
 const ratesStore = useRatesStore()
-const { sanitizeNumberInput } = useArabicNumbers()
 const {
   goldGram24SAR,
   goldGram22SAR,
@@ -189,15 +188,13 @@ onMounted(() => {
             السعر المعروض من البائع (ر.س):
           </label>
           <UInput
-            :model-value="sellerPrice"
+            v-model.number="sellerPrice"
             class="w-full"
-            type="text"
-            inputmode="numeric"
+            type="number"
             min="1"
             icon="i-lucide-tag"
             size="lg"
             placeholder="أدخل السعر المطلوب من الصائغ"
-            @update:model-value="sellerPrice = sanitizeNumberInput($event)"
           />
         </div>
 
@@ -224,15 +221,13 @@ onMounted(() => {
         <div>
           <label class="block text-sm font-medium mb-2 text-muted">الوزن الإجمالي (جرام):</label>
           <UInput
-            :model-value="weight"
+            v-model.number="weight"
             class="w-full"
-            type="text"
-            inputmode="numeric"
+            type="number"
             min="0.1"
             step="0.1"
             icon="i-lucide-scale"
             placeholder="أدخل الوزن بالجرام"
-            @update:model-value="weight = sanitizeNumberInput($event)"
           />
         </div>
 
@@ -258,13 +253,11 @@ onMounted(() => {
 
           <UInput
             v-else
-            :model-value="customMakingCharge"
-            type="text"
-            inputmode="numeric"
+            v-model.number="customMakingCharge"
+            type="number"
             min="0"
             icon="i-lucide-hammer"
             placeholder="أدخل قيمة المصنعية التقديرية للجرام"
-            @update:model-value="customMakingCharge = sanitizeNumberInput($event)"
           />
         </div>
 
