@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
 // 1. استخدام متجر الأسعار
 const ratesStore = useRatesStore()
@@ -8,13 +9,22 @@ const { usdToSar, defaultKarat, autoVat, ingotCharge, plainCharge, fancyCharge, 
 // 2. التحكم في المظهر (Light / Dark / System)
 const colorMode = useColorMode()
 const toast = useToast()
+const { t } = useI18n()
+
+// 3. إعدادات اللغة
+const { locale, locales } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+
+const setLocale = (code: 'ar' | 'en' | 'fr' | 'es') => {
+  navigateTo(switchLocalePath(code))
+}
 
 // عند تغيير العيار في الإعدادات
 const setKarat = (karat: number) => {
   ratesStore.setDefaultKarat(karat)
 }
 
-// 3. القيم القياسية للتطبيق (الافتراضيات)
+// 4. القيم القياسية للتطبيق (الافتراضيات)
 const DEFAULT_VALUES = {
   karat: 21,
   autoVat: true,
@@ -24,29 +34,28 @@ const DEFAULT_VALUES = {
   luxuriousCharge: 80
 }
 
-// 4. الحالات التفاعلية
+// 5. الحالات التفاعلية
 const isResetModalOpen = ref<boolean>(false)
 
 // خيارات العيار الافتراضي
-const karatOptions = [
-  { label: 'عيار 24', value: 24 },
-  { label: 'عيار 22', value: 22 },
-  { label: 'عيار 21', value: 21 },
-  { label: 'عيار 18', value: 18 }
-]
+const karatOptions = computed(() => [
+  { label: t('buy.karat24'), value: 24 },
+  { label: t('buy.karat22'), value: 22 },
+  { label: t('buy.karat21'), value: 21 },
+  { label: t('buy.karat18'), value: 18 }
+])
 
-// خيارات الثيم
-const themeOptions = [
-  { label: 'فاتح', value: 'light', icon: 'i-lucide-sun' },
-  { label: 'داكن', value: 'dark', icon: 'i-lucide-moon' },
-  { label: 'النظام', value: 'system', icon: 'i-lucide-laptop' }
-]
+const themeOptions = computed(() => [
+  { label: t('settings.light'), value: 'light', icon: 'i-lucide-sun' },
+  { label: t('settings.dark'), value: 'dark', icon: 'i-lucide-moon' },
+  { label: t('settings.system'), value: 'system', icon: 'i-lucide-laptop' }
+])
 
 // دالة حفظ الإعدادات
 const handleSaveSettings = () => {
   toast.add({
-    title: 'تم حفظ الإعدادات بنجاح',
-    description: 'تم تحديث كافة تفضيلات التطبيق والمظهر.',
+    title: t('settings.saveSuccessTitle'),
+    description: t('settings.saveSuccessDesc'),
     color: 'success',
     icon: 'i-lucide-check-circle'
   })
@@ -65,8 +74,8 @@ const confirmResetDefaults = () => {
   isResetModalOpen.value = false
 
   toast.add({
-    title: 'تمت استعادة الإعدادات الافتراضية',
-    description: 'تمت إعادة ضبط جميع القيم إلى حالتها القياسية.',
+    title: t('settings.resetSuccessTitle'),
+    description: t('settings.resetSuccessDesc'),
     color: 'warning',
     icon: 'i-lucide-rotate-ccw'
   })
@@ -76,8 +85,8 @@ const confirmResetDefaults = () => {
 const handleClearCache = () => {
   ratesStore.fetchRates()
   toast.add({
-    title: 'تم تحديث البيانات',
-    description: 'تمت إعادة جلب أسعار الذهب والصرف فورياً.',
+    title: t('settings.updateSuccessTitle'),
+    description: t('settings.updateSuccessDesc'),
     color: 'info',
     icon: 'i-lucide-refresh-cw'
   })
@@ -94,7 +103,7 @@ const handleClearCache = () => {
           class="w-6 h-6 text-amber-500"
         />
         <h1 class="text-2xl font-black">
-          إعدادات التطبيق
+          {{ t('settings.title') }}
         </h1>
       </div>
     </div>
@@ -108,13 +117,13 @@ const handleClearCache = () => {
               name="i-lucide-palette"
               class="w-5 h-5 text-amber-500"
             />
-            مظهر التطبيق
+            {{ t('settings.appearance') }}
           </div>
         </template>
 
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium mb-2 text-muted">نمط الألوان:</label>
+            <label class="block text-sm font-medium mb-2 text-muted">{{ t('settings.colorModeLabel') }}</label>
             <div class="grid grid-cols-3 gap-2">
               <button
                 v-for="theme in themeOptions"
@@ -137,6 +146,34 @@ const handleClearCache = () => {
         </div>
       </UCard>
 
+      <!-- Language Switcher -->
+      <UCard class="p-2 shadow-sm">
+        <template #header>
+          <div class="flex items-center gap-2 font-bold text-base">
+            <UIcon
+              name="i-lucide-globe"
+              class="w-5 h-5 text-amber-500"
+            />
+            {{ t('settings.language') }}
+          </div>
+        </template>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button
+            v-for="loc in locales"
+            :key="loc.code"
+            type="button"
+            class="py-2.5 px-2 rounded-lg text-sm font-semibold border transition-all"
+            :class="locale === loc.code
+              ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
+              : 'bg-surface border-accented hover:border-amber-400'"
+            @click="setLocale(loc.code)"
+          >
+            {{ loc.name }}
+          </button>
+        </div>
+      </UCard>
+
       <!-- 2. إعدادات الحسابات والذهب الافتراضية -->
       <UCard class="p-2 shadow-sm">
         <template #header>
@@ -145,14 +182,14 @@ const handleClearCache = () => {
               name="i-lucide-calculator"
               class="w-5 h-5 text-amber-500"
             />
-            التفضيلات الافتراضية للحاسبة
+            {{ t('settings.calculatorDefaults') }}
           </div>
         </template>
 
         <div class="space-y-5">
           <!-- العيار الافتراضي -->
           <div>
-            <label class="block text-sm font-medium mb-2 text-muted">العيار الافتراضي عند فتح التطبيق:</label>
+            <label class="block text-sm font-medium mb-2 text-muted">{{ t('settings.defaultKaratLabel') }}</label>
             <div class="grid grid-cols-4 gap-2">
               <button
                 v-for="item in karatOptions"
@@ -176,7 +213,7 @@ const handleClearCache = () => {
                 name="i-lucide-receipt"
                 class="w-5 h-5 text-muted"
               />
-              <span class="text-sm font-medium">تفعيل ضريبة القيمة المضافة (15%) تلقائياً</span>
+              <span class="text-sm font-medium">{{ t('settings.autoVatLabel') }}</span>
             </div>
             <USwitch v-model="autoVat" />
           </div>
@@ -191,13 +228,13 @@ const handleClearCache = () => {
               name="i-lucide-hammer"
               class="w-5 h-5 text-amber-500"
             />
-            قيم المصنعية الافتراضية (ر.س/جرام)
+            {{ t('settings.makingCharges') }}
           </div>
         </template>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-medium text-muted mb-1">السبائك والجنيهات:</label>
+            <label class="block text-xs font-medium text-muted mb-1">{{ t('settings.ingotLabel') }}</label>
             <UInput
               v-model.number="ingotCharge"
               type="number"
@@ -205,7 +242,7 @@ const handleClearCache = () => {
             />
           </div>
           <div>
-            <label class="block text-xs font-medium text-muted mb-1">مشغولات سادة / خفيفة:</label>
+            <label class="block text-xs font-medium text-muted mb-1">{{ t('settings.plainLabel') }}</label>
             <UInput
               v-model.number="plainCharge"
               type="number"
@@ -213,7 +250,7 @@ const handleClearCache = () => {
             />
           </div>
           <div>
-            <label class="block text-xs font-medium text-muted mb-1">مشغولات منقوشة / زركون:</label>
+            <label class="block text-xs font-medium text-muted mb-1">{{ t('settings.fancyLabel') }}</label>
             <UInput
               v-model.number="fancyCharge"
               type="number"
@@ -221,7 +258,7 @@ const handleClearCache = () => {
             />
           </div>
           <div>
-            <label class="block text-xs font-medium text-muted mb-1">أطقم فاخرة / مناسبات:</label>
+            <label class="block text-xs font-medium text-muted mb-1">{{ t('settings.luxuriousLabel') }}</label>
             <UInput
               v-model.number="luxuriousCharge"
               type="number"
@@ -239,20 +276,20 @@ const handleClearCache = () => {
               name="i-lucide-dollar-sign"
               class="w-5 h-5 text-amber-500"
             />
-            أسعار الصرف والشبكة
+            {{ t('settings.exchangeNetwork') }}
           </div>
         </template>
 
         <div class="space-y-3 text-sm">
           <div class="flex justify-between items-center text-muted">
-            <span>سعر صرف الدولار مقابل الريال:</span>
-            <span class="font-bold text-foreground">{{ usdToSar ? `${usdToSar} ر.س` : '3.75 ر.س' }}</span>
+            <span>{{ t('settings.usdRate') }}</span>
+            <span class="font-bold text-foreground">{{ usdToSar ? t('settings.usdRateValue', { n: usdToSar }) : t('settings.usdRateValue', { n: 3.75 }) }}</span>
           </div>
 
           <USeparator />
 
           <div class="flex justify-between items-center">
-            <span class="text-xs text-muted">تحديث بيانات الأسعار يدوياً:</span>
+            <span class="text-xs text-muted">{{ t('settings.manualUpdate') }}</span>
             <UButton
               size="xs"
               color="neutral"
@@ -260,7 +297,7 @@ const handleClearCache = () => {
               icon="i-lucide-refresh-cw"
               @click="handleClearCache"
             >
-              تحديث الأسعار الآن
+              {{ t('settings.updateNow') }}
             </UButton>
           </div>
         </div>
@@ -276,7 +313,7 @@ const handleClearCache = () => {
           class="font-bold"
           @click="handleSaveSettings"
         >
-          حفظ التغييرات
+          {{ t('settings.saveChanges') }}
         </UButton>
 
         <UButton
@@ -288,7 +325,7 @@ const handleClearCache = () => {
           class="font-bold"
           @click="isResetModalOpen = true"
         >
-          استعادة الافتراضيات
+          {{ t('settings.restoreDefaults') }}
         </UButton>
       </div>
     </div>
@@ -296,8 +333,8 @@ const handleClearCache = () => {
     <!-- Modal تأكيد استعادة الافتراضيات -->
     <UModal
       v-model:open="isResetModalOpen"
-      title="تأكيد استعادة الافتراضيات"
-      description="هل أنت أصلًا متاكد من رغبتك في إعادة ضبط كافة إعدادات التطبيق والمصنعيات إلى القيم القياسية؟"
+      :title="t('settings.resetTitle')"
+      :description="t('settings.resetDesc')"
     >
       <template #footer>
         <div class="flex justify-end gap-2 w-full">
@@ -306,14 +343,14 @@ const handleClearCache = () => {
             variant="outline"
             @click="isResetModalOpen = false"
           >
-            إلغاء
+            {{ t('settings.cancel') }}
           </UButton>
           <UButton
             color="error"
             icon="i-lucide-rotate-ccw"
             @click="confirmResetDefaults"
           >
-            تأكيد الإعادة
+            {{ t('settings.confirmReset') }}
           </UButton>
         </div>
       </template>

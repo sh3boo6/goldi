@@ -1,0 +1,1 @@
+import{r as e}from"./TTGp8l1T.js";var t=e(`/img/logo.png`);export{t};

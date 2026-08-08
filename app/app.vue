@@ -1,14 +1,19 @@
 <script setup>
+const { locale } = useI18n()
+
+const isRtl = computed(() => locale.value === 'ar')
+
 useHead({
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
   ],
   link: [
-    { rel: 'icon', href: '/favicon.ico' }
+    { rel: 'icon', href: '/favicon.ico' },
+    { rel: 'apple-touch-icon', href: '/img/apple-touch-icon.png' }
   ],
   htmlAttrs: {
-    lang: 'ar-SA',
-    dir: 'rtl'
+    lang: computed(() => locale.value),
+    dir: computed(() => isRtl.value ? 'rtl' : 'ltr')
   }
 })
 
@@ -16,7 +21,7 @@ useSeoMeta({})
 </script>
 
 <template>
-  <UApp dir="rtl">
+  <UApp :dir="isRtl ? 'rtl' : 'ltr'">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

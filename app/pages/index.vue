@@ -1,23 +1,17 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
-// استخدام VueUse للتحقق من الاتصال
 const online = useOnline()
-
-// جلب متجر Pinia
 const ratesStore = useRatesStore()
-
-// التحقق من عرض صفحة المقدمة
 const { hasShownIntro } = useIntro()
+const { t } = useI18n()
 
-// التحويل التلقائي إلى صفحة المقدمة عند أول فتح
 onMounted(() => {
   if (!hasShownIntro.value) {
     navigateTo('/intro')
   }
 })
 
-// استخراج كافة العيارات والبيانات مع الحفاظ على الـ Reactivity
 const {
   goldGram24SAR,
   goldGram22SAR,
@@ -27,31 +21,28 @@ const {
   lastUpdated
 } = storeToRefs(ratesStore)
 
-// تحويل تاريخ آخر تحديث إلى صيغة نسبية (منذ دقيقة/ساعة/يوم)
 const now = ref(Date.now())
 let timeAgoTimer: ReturnType<typeof setInterval> | undefined
 
 const timeAgo = computed(() => {
   void now.value
-  if (!lastUpdated.value) return 'لم يتم التحديث بعد'
+  if (!lastUpdated.value) return t('index.notUpdated')
 
   const elapsedSeconds = Math.max(0, Math.floor((Date.now() - new Date(lastUpdated.value).getTime()) / 1000))
-  if (elapsedSeconds < 60) return elapsedSeconds < 5 ? 'الآن' : `منذ ${elapsedSeconds} ثوانٍ`
+  if (elapsedSeconds < 60) return elapsedSeconds < 5 ? t('index.justNow') : t('index.secondsAgo', { n: elapsedSeconds })
 
   const minutes = Math.floor(elapsedSeconds / 60)
-  if (minutes < 60) return `منذ ${minutes === 1 ? 'دقيقة' : `${minutes} دقائق`}`
+  if (minutes < 60) return minutes === 1 ? t('index.minuteAgo') : t('index.minutesAgo', { n: minutes })
 
   const hours = Math.floor(minutes / 60)
-  if (hours < 24) return `منذ ${hours === 1 ? 'ساعة' : `${hours} ساعات`}`
+  if (hours < 24) return hours === 1 ? t('index.hourAgo') : t('index.hoursAgo', { n: hours })
 
   const days = Math.floor(hours / 24)
-  return `منذ ${days === 1 ? 'يوم' : `${days} أيام`}`
+  return days === 1 ? t('index.dayAgo') : t('index.daysAgo', { n: days })
 })
 
-// حالة التحميل بزر التحديث
 const loading = ref(false)
 
-// دالة لتحديث الأسعار عند الضغط على الزر
 const handleRefresh = async () => {
   if (!online.value) return
   loading.value = true
@@ -62,7 +53,6 @@ const handleRefresh = async () => {
   }
 }
 
-// جلب البيانات تلقائياً عند فتح الصفحة إذا كانت الشبكة متصلة
 onMounted(() => {
   timeAgoTimer = setInterval(() => {
     now.value = Date.now()
@@ -87,10 +77,10 @@ onUnmounted(() => {
           alt="الذهب"
           class="h-16"
         >
-        برنامج الذهب
+        {{ t('index.title') }}
       </div>
       <p class="text-muted text-justify text-sm">
-        برنامج الذهب هو برنامج يهدف إلى تعزيز الاستثمار في الذهب وتوفير منصة آمنة وموثوقة للمستثمرين لشراء وبيع الذهب بسهولة. يتيح البرنامج للمستخدمين الوصول إلى أسعار الذهب الحية، وإجراء المعاملات المالية بشكل سريع وفعال، مع ضمان الشفافية والأمان في جميع العمليات.
+        {{ t('index.description') }}
       </p>
     </div>
 
@@ -99,7 +89,7 @@ onUnmounted(() => {
         name="i-lucide-globe"
         class="w-4 h-4 inline-block me-1"
       />
-      جلب الأسعار من الإنترنت
+      {{ t('index.fetchingPrices') }}
     </p>
 
     <!-- حالة الاتصال بالإنترنت -->
@@ -111,7 +101,7 @@ onUnmounted(() => {
         />
         <div>
           <div class="font-semibold">
-            متصل بالإنترنت
+            {{ t('index.online') }}
           </div>
         </div>
         <div class="ms-auto">
@@ -121,7 +111,7 @@ onUnmounted(() => {
             color="success"
             @click="handleRefresh"
           >
-            تحديث
+            {{ t('index.refresh') }}
           </UButton>
         </div>
       </div>
@@ -136,10 +126,10 @@ onUnmounted(() => {
         />
         <div>
           <div class="font-semibold">
-            غير متصل بالإنترنت
+            {{ t('index.offline') }}
           </div>
           <div class="text-xs text-muted mt-1">
-            أنت الآن غير متصل بالإنترنت
+            {{ t('index.offlineDesc') }}
           </div>
         </div>
       </div>
@@ -148,37 +138,37 @@ onUnmounted(() => {
     <!-- عرض كافة عيارات الذهب المحفوظة -->
     <div class="grid grid-cols-2 gap-3 my-4">
       <div class="p-3 border border-accented rounded-lg bg-surface flex flex-col">
-        <span class="text-xs text-muted">جرام عيار 24</span>
+        <span class="text-xs text-muted">{{ t('index.gram24') }}</span>
         <span class="text-lg font-bold text-amber-500">
-          {{ goldGram24SAR ? `${goldGram24SAR.toFixed(2)} ر.س` : '---' }}
+          {{ goldGram24SAR ? `${goldGram24SAR.toFixed(2)} ر.س` : t('index.notAvailable') }}
         </span>
       </div>
 
       <div class="p-3 border border-accented rounded-lg bg-surface flex flex-col">
-        <span class="text-xs text-muted">جرام عيار 22</span>
+        <span class="text-xs text-muted">{{ t('index.gram22') }}</span>
         <span class="text-lg font-bold text-amber-500">
-          {{ goldGram22SAR ? `${goldGram22SAR.toFixed(2)} ر.س` : '---' }}
+          {{ goldGram22SAR ? `${goldGram22SAR.toFixed(2)} ر.س` : t('index.notAvailable') }}
         </span>
       </div>
 
       <div class="p-3 border border-accented rounded-lg bg-surface flex flex-col">
-        <span class="text-xs text-muted">جرام عيار 21</span>
+        <span class="text-xs text-muted">{{ t('index.gram21') }}</span>
         <span class="text-lg font-bold text-amber-600">
-          {{ goldGram21SAR ? `${goldGram21SAR.toFixed(2)} ر.س` : '---' }}
+          {{ goldGram21SAR ? `${goldGram21SAR.toFixed(2)} ر.س` : t('index.notAvailable') }}
         </span>
       </div>
 
       <div class="p-3 border border-accented rounded-lg bg-surface flex flex-col">
-        <span class="text-xs text-muted">جرام عيار 18</span>
+        <span class="text-xs text-muted">{{ t('index.gram18') }}</span>
         <span class="text-lg font-bold text-amber-600">
-          {{ goldGram18SAR ? `${goldGram18SAR.toFixed(2)} ر.س` : '---' }}
+          {{ goldGram18SAR ? `${goldGram18SAR.toFixed(2)} ر.س` : t('index.notAvailable') }}
         </span>
       </div>
 
       <div class="p-3 border border-accented rounded-lg bg-surface flex flex-col col-span-2">
-        <span class="text-xs text-muted">جرام عيار 14</span>
+        <span class="text-xs text-muted">{{ t('index.gram14') }}</span>
         <span class="text-lg font-bold text-amber-700">
-          {{ goldGram14SAR ? `${goldGram14SAR.toFixed(2)} ر.س` : '---' }}
+          {{ goldGram14SAR ? `${goldGram14SAR.toFixed(2)} ر.س` : t('index.notAvailable') }}
         </span>
       </div>
     </div>
@@ -189,7 +179,7 @@ onUnmounted(() => {
         name="i-lucide-clock"
         class="w-4 h-4 inline-block me-1"
       />
-      آخر تحديث: {{ lastUpdated ? timeAgo : 'لم يتم التحديث بعد' }}
+      {{ t('index.lastUpdated') }} {{ lastUpdated ? timeAgo : t('index.notUpdated') }}
     </p>
   </div>
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
+const { t } = useI18n()
+
 // 1. الاتصال بالإنترنت والصلة بمتجر الأسعار
 const online = useOnline()
 const ratesStore = useRatesStore()
@@ -51,10 +53,10 @@ const sellerPrice = ref<number | null>(null)
 
 // خيارات فئات المشغولات
 const categories = [
-  { label: 'سبيكة / جنيه (15 ر.س/جرام)', value: 'ingot' },
-  { label: 'مشغولات سادة / خفيفة (30 ر.س/جرام)', value: 'plain' },
-  { label: 'مشغولات منقوشة / زركون (50 ر.س/جرام)', value: 'fancy' },
-  { label: 'طقم فاخر / مناسبات (80 ر.س/جرام)', value: 'luxurious' }
+  { label: t('buy.categoryIngot'), value: 'ingot' },
+  { label: t('buy.categoryPlain'), value: 'plain' },
+  { label: t('buy.categoryFancy'), value: 'fancy' },
+  { label: t('buy.categoryLuxurious'), value: 'luxurious' }
 ]
 
 const categoryCharges: Record<string, number> = {
@@ -110,41 +112,41 @@ const priceAnalysis = computed(() => {
   if (Math.abs(diffPercentage) <= 3) {
     return {
       status: 'fair',
-      label: 'سعر عادل ومناسب جداً',
+      label: t('buy.fair'),
       icon: 'i-lucide-check-circle',
-      diffText: `${Math.abs(diff).toFixed(2)} ر.س (ضمن النطاق الموصى به)`
+      diffText: `${Math.abs(diff).toFixed(2)} ر.س (${t('buy.fairRange')})`
     }
   } else if (diffPercentage > 3 && diffPercentage <= 10) {
     return {
       status: 'slightly_high',
-      label: 'مرتفع قليلاً (مصنعية أعلى من المتوسط)',
+      label: t('buy.slightlyHigh'),
       icon: 'i-lucide-alert-triangle',
-      diffText: `أعلى بـ ${diff.toFixed(2)} ر.س عن السعر العادل`
+      diffText: t('buy.higherBy', { n: diff.toFixed(2) })
     }
   } else if (diffPercentage > 10) {
     return {
       status: 'expensive',
-      label: 'مرتفع جداً (مصنعية مبالغ فيها)',
+      label: t('buy.expensive'),
       icon: 'i-lucide-x-circle',
-      diffText: `أعلى بـ ${diff.toFixed(2)} ر.س عن السعر العادل`
+      diffText: t('buy.higherBy', { n: diff.toFixed(2) })
     }
   } else {
     return {
       status: 'bargain',
-      label: 'عرض ممتاز (أقل من السعر العادل)',
+      label: t('buy.bargain'),
       icon: 'i-lucide-sparkles',
-      diffText: `أوفر بـ ${Math.abs(diff).toFixed(2)} ر.س عن السوق`
+      diffText: t('buy.saveBy', { n: Math.abs(diff).toFixed(2) })
     }
   }
 })
 
 // قائمة العيارات
 const karatOptions = [
-  { label: 'عيار 24', value: 24 },
-  { label: 'عيار 22', value: 22 },
-  { label: 'عيار 21', value: 21 },
-  { label: 'عيار 18', value: 18 },
-  { label: 'عيار 14', value: 14 }
+  { label: t('buy.karat24'), value: 24 },
+  { label: t('buy.karat22'), value: 22 },
+  { label: t('buy.karat21'), value: 21 },
+  { label: t('buy.karat18'), value: 18 },
+  { label: t('buy.karat14'), value: 14 }
 ]
 
 onMounted(() => {
@@ -164,7 +166,7 @@ onMounted(() => {
           class="w-6 h-6 text-amber-500"
         />
         <h1 class="text-2xl font-black">
-          حاسبة تقييم الذهب
+          {{ t('buy.title') }}
         </h1>
       </div>
     </div>
@@ -177,7 +179,7 @@ onMounted(() => {
             name="i-lucide-sliders"
             class="w-5 h-5 text-amber-500"
           />
-          مواصفات القطعة وسعر البائع
+          {{ t('buy.specsTitle') }}
         </div>
       </template>
 
@@ -185,7 +187,7 @@ onMounted(() => {
         <!-- حقل السعر المباشر من البائع -->
         <div class="p-2 px-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
           <label class="block text-sm font-bold mb-2 text-amber-700 dark:text-amber-400">
-            السعر المعروض من البائع (ر.س):
+            {{ t('buy.sellerPriceLabel') }}
           </label>
           <UInput
             v-model.number="sellerPrice"
@@ -194,13 +196,13 @@ onMounted(() => {
             min="1"
             icon="i-lucide-tag"
             size="lg"
-            placeholder="أدخل السعر المطلوب من الصائغ"
+            :placeholder="t('buy.sellerPricePlaceholder')"
           />
         </div>
 
         <!-- اختيار العيار -->
         <div>
-          <label class="block text-sm font-medium mb-2 text-muted">عيار الذهب:</label>
+          <label class="block text-sm font-medium mb-2 text-muted">{{ t('buy.karatLabel') }}</label>
           <div class="grid grid-cols-5 gap-2">
             <button
               v-for="item in karatOptions"
@@ -219,7 +221,7 @@ onMounted(() => {
 
         <!-- وزن القطعة -->
         <div>
-          <label class="block text-sm font-medium mb-2 text-muted">الوزن الإجمالي (جرام):</label>
+          <label class="block text-sm font-medium mb-2 text-muted">{{ t('buy.weightLabel') }}</label>
           <UInput
             v-model.number="weight"
             class="w-full"
@@ -227,20 +229,20 @@ onMounted(() => {
             min="0.1"
             step="0.1"
             icon="i-lucide-scale"
-            placeholder="أدخل الوزن بالجرام"
+            :placeholder="t('buy.weightPlaceholder')"
           />
         </div>
 
         <!-- نوع القطعة والمصنعية الآلية -->
         <div>
           <div class="flex justify-between items-center mb-2">
-            <label class="text-sm font-medium text-muted">نوع القطعة:</label>
+            <label class="text-sm font-medium text-muted">{{ t('buy.categoryLabel') }}</label>
             <button
               type="button"
               class="text-xs text-amber-600 underline"
               @click="isManualMakingCharge = !isManualMakingCharge"
             >
-              {{ isManualMakingCharge ? 'تفعيل الحساب الآلي' : 'تحديد المصنعية يدوياً' }}
+              {{ isManualMakingCharge ? t('buy.enableAutoCalc') : t('buy.setManualCharge') }}
             </button>
           </div>
 
@@ -257,7 +259,7 @@ onMounted(() => {
             type="number"
             min="0"
             icon="i-lucide-hammer"
-            placeholder="أدخل قيمة المصنعية التقديرية للجرام"
+            :placeholder="t('buy.manualChargePlaceholder')"
           />
         </div>
 
@@ -268,7 +270,7 @@ onMounted(() => {
               name="i-lucide-receipt"
               class="w-5 h-5 text-muted"
             />
-            <span class="text-sm font-medium">السعر يشمل ضريبة القيمة المضافة (15%)</span>
+            <span class="text-sm font-medium">{{ t('buy.vatLabel') }}</span>
           </div>
           <USwitch v-model="includeVat" />
         </div>
@@ -282,7 +284,7 @@ onMounted(() => {
           class="font-bold mt-4"
           @click="isDrawerOpen = true"
         >
-          عرض الفاتورة والتقييم
+          {{ t('buy.showInvoice') }}
         </UButton>
       </div>
     </UCard>
@@ -290,8 +292,8 @@ onMounted(() => {
     <!-- Drawer الفاتورة والنتيجة -->
     <UDrawer
       v-model:open="isDrawerOpen"
-      title="تفاصيل الفاتورة وتقييم السعر"
-      description="مقارنة السعر المعروض بالسعر العادل في السوق"
+      :title="t('buy.drawerTitle')"
+      :description="t('buy.drawerDesc')"
     >
       <template #body>
         <div class="space-y-4 p-2">
@@ -332,19 +334,19 @@ onMounted(() => {
               v-if="sellerPrice"
               class="flex justify-between items-center p-2 bg-amber-500/10 rounded-lg text-amber-700 dark:text-amber-400 font-bold"
             >
-              <span>سعر البائع المعروض:</span>
+              <span>{{ t('buy.sellerPrice') }}</span>
               <span class="text-base">{{ sellerPrice.toFixed(2) }} ر.س</span>
             </div>
 
             <div class="flex justify-between text-muted">
-              <span>سعر الجرام الصافي (عيار {{ selectedKarat }}):</span>
+              <span>{{ t('buy.gramPrice', { n: selectedKarat }) }}:</span>
               <span class="font-semibold text-foreground">
                 {{ currentGramPrice ? `${currentGramPrice.toFixed(2)} ر.س` : '---' }}
               </span>
             </div>
 
             <div class="flex justify-between text-muted">
-              <span>المصنعية التقديرية للجرام:</span>
+              <span>{{ t('buy.chargePerGram') }}</span>
               <span class="font-semibold text-foreground">
                 {{ computedMakingChargePerGram }} ر.س
               </span>
@@ -353,14 +355,14 @@ onMounted(() => {
             <USeparator />
 
             <div class="flex justify-between text-muted">
-              <span>قيمة الذهب الخالص ({{ weight }} جرام):</span>
+              <span>{{ t('buy.goldValue', { n: weight }) }}</span>
               <span class="font-semibold text-foreground">
                 {{ rawGoldTotal.toFixed(2) }} ر.س
               </span>
             </div>
 
             <div class="flex justify-between text-muted">
-              <span>إجمالي المصنعية:</span>
+              <span>{{ t('buy.totalCharge') }}</span>
               <span class="font-semibold text-foreground">
                 {{ makingChargeTotal.toFixed(2) }} ر.س
               </span>
@@ -370,7 +372,7 @@ onMounted(() => {
               v-if="includeVat"
               class="flex justify-between text-muted"
             >
-              <span>ضريبة القيمة المضافة (15%):</span>
+              <span>{{ t('buy.vat') }}</span>
               <span class="font-semibold text-foreground">
                 {{ vatAmount.toFixed(2) }} ر.س
               </span>
@@ -379,7 +381,7 @@ onMounted(() => {
             <USeparator class="my-2" />
 
             <div class="flex justify-between items-center text-base font-black">
-              <span>إجمالي السعر العادل المفترض:</span>
+              <span>{{ t('buy.fairTotal') }}</span>
               <span class="text-xl text-amber-600">
                 {{ fairGrandTotal.toFixed(2) }} ر.س
               </span>
@@ -393,9 +395,10 @@ onMounted(() => {
           block
           color="neutral"
           variant="outline"
+          class="mb-5 py-2"
           @click="isDrawerOpen = false"
         >
-          إغلاق الفاتورة
+          {{ t('buy.closeInvoice') }}
         </UButton>
       </template>
     </UDrawer>

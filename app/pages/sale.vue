@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
+const { t } = useI18n()
+
 // 1. الاتصال بالإنترنت والصلة بمتجر الأسعار
 const online = useOnline()
 const ratesStore = useRatesStore()
@@ -24,7 +26,7 @@ const isDrawerOpen = ref<boolean>(false)
 const selectedKarat = ref<number>(defaultKarat.value)
 const weight = ref<number>(1)
 const selectedItemType = ref<string>('jewelry')
-const stonesDeduction = ref<number>(0) // وزن الفصوص أو الأحجار بالجرام لخصمها
+const stonesDeduction = ref<number>(0)
 const customGramPrice = ref<number | null>(null)
 const isManualPrice = ref<boolean>(false)
 
@@ -33,9 +35,9 @@ const buyerOfferPrice = ref<number | null>(null)
 
 // خيارات نوع القطعة لتحديد الخصومات
 const itemTypes = [
-  { label: 'مشغولات ذهبية (بدون مصنعية)', value: 'jewelry' },
-  { label: 'سبيكة / جنيه (استرداد جزء من المصنعية)', value: 'ingot' },
-  { label: 'ذهب مكسور / قشرة', value: 'scrap' }
+  { label: t('sale.typeJewelry'), value: 'jewelry' },
+  { label: t('sale.typeIngot'), value: 'ingot' },
+  { label: t('sale.typeScrap'), value: 'scrap' }
 ]
 
 // 3. تحديد سعر الجرام المباشر للشراء
@@ -78,41 +80,41 @@ const priceAnalysis = computed(() => {
   if (Math.abs(diffPercentage) <= 2) {
     return {
       status: 'fair',
-      label: 'عرض عادل ومطابق لسعر السوق',
+      label: t('sale.fairOffer'),
       icon: 'i-lucide-check-circle',
-      diffText: `${Math.abs(diff).toFixed(2)} ر.س (ضمن النطاق العادل)`
+      diffText: `${Math.abs(diff).toFixed(2)} ر.س (${t('sale.withinRange')})`
     }
   } else if (diffPercentage < -2 && diffPercentage >= -7) {
     return {
       status: 'slightly_low',
-      label: 'عرض منخفض قليلاً عن سعر السوق',
+      label: t('sale.slightlyLow'),
       icon: 'i-lucide-alert-triangle',
-      diffText: `أقل بـ ${Math.abs(diff).toFixed(2)} ر.س عن القيمة المستحقة`
+      diffText: t('sale.lowerBy', { n: Math.abs(diff).toFixed(2) })
     }
   } else if (diffPercentage < -7) {
     return {
       status: 'unfair',
-      label: 'عرض بخس (أقل بكثير من قيمة الذهب)',
+      label: t('sale.unfair'),
       icon: 'i-lucide-x-circle',
-      diffText: `أقل بـ ${Math.abs(diff).toFixed(2)} ر.س عن القيمة المستحقة`
+      diffText: t('sale.lowerBy', { n: Math.abs(diff).toFixed(2) })
     }
   } else {
     return {
       status: 'excellent',
-      label: 'عرض ممتاز أعلى من سعر السوق',
+      label: t('sale.excellent'),
       icon: 'i-lucide-sparkles',
-      diffText: `أعلى بـ ${diff.toFixed(2)} ر.س عن السوق`
+      diffText: t('buy.higherBy', { n: diff.toFixed(2) })
     }
   }
 })
 
 // قائمة العيارات
 const karatOptions = [
-  { label: 'عيار 24', value: 24 },
-  { label: 'عيار 22', value: 22 },
-  { label: 'عيار 21', value: 21 },
-  { label: 'عيار 18', value: 18 },
-  { label: 'عيار 14', value: 14 }
+  { label: t('buy.karat24'), value: 24 },
+  { label: t('buy.karat22'), value: 22 },
+  { label: t('buy.karat21'), value: 21 },
+  { label: t('buy.karat18'), value: 18 },
+  { label: t('buy.karat14'), value: 14 }
 ]
 
 onMounted(() => {
@@ -132,7 +134,7 @@ onMounted(() => {
           class="w-6 h-6 text-amber-500"
         />
         <h1 class="text-2xl font-black">
-          حاسبة تقييم بيع الذهب المستعمل
+          {{ t('sale.title') }}
         </h1>
       </div>
     </div>
@@ -145,7 +147,7 @@ onMounted(() => {
             name="i-lucide-sliders"
             class="w-5 h-5 text-amber-500"
           />
-          مواصفات الذهب المراد بيعه
+          {{ t('sale.specsTitle') }}
         </div>
       </template>
 
@@ -153,7 +155,7 @@ onMounted(() => {
         <!-- حقل السعر المعروض من الصائغ/المشتري -->
         <div class="p-2 px-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
           <label class="block text-sm font-bold mb-2 text-amber-700 dark:text-amber-400">
-            العرض المقدم من الصائغ للشراء منك (ر.س):
+            {{ t('sale.buyerOfferLabel') }}
           </label>
           <UInput
             v-model.number="buyerOfferPrice"
@@ -162,13 +164,13 @@ onMounted(() => {
             min="1"
             icon="i-lucide-hand-coins"
             size="lg"
-            placeholder="أدخل المبلغ المعروض عليك لشراء ذهبك"
+            :placeholder="t('sale.buyerOfferPlaceholder')"
           />
         </div>
 
         <!-- اختيار العيار -->
         <div>
-          <label class="block text-sm font-medium mb-2 text-muted">عيار الذهب:</label>
+          <label class="block text-sm font-medium mb-2 text-muted">{{ t('buy.karatLabel') }}</label>
           <div class="grid grid-cols-5 gap-2">
             <button
               v-for="item in karatOptions"
@@ -187,7 +189,7 @@ onMounted(() => {
 
         <!-- الوزن الإجمالي -->
         <div>
-          <label class="block text-sm font-medium mb-2 text-muted">الوزن الإجمالي (جرام):</label>
+          <label class="block text-sm font-medium mb-2 text-muted">{{ t('sale.weightLabel') }}</label>
           <UInput
             v-model.number="weight"
             class="w-full"
@@ -195,13 +197,13 @@ onMounted(() => {
             min="0.1"
             step="0.1"
             icon="i-lucide-scale"
-            placeholder="أدخل وزن القطعة بالجرام"
+            :placeholder="t('sale.weightPlaceholder')"
           />
         </div>
 
         <!-- خصم وزن الفصوص/الأحجار غير الذهبية -->
         <div>
-          <label class="block text-sm font-medium mb-2 text-muted">وزن الفصوص/الأحجار لخصمه (إن وجد):</label>
+          <label class="block text-sm font-medium mb-2 text-muted">{{ t('sale.stonesLabel') }}</label>
           <UInput
             v-model.number="stonesDeduction"
             class="w-full"
@@ -209,20 +211,20 @@ onMounted(() => {
             min="0"
             step="0.1"
             icon="i-lucide-gem"
-            placeholder="وزن الأحجار أو الزركون بالجرام"
+            :placeholder="t('sale.stonesPlaceholder')"
           />
         </div>
 
         <!-- نوع القطعة -->
         <div>
           <div class="flex justify-between items-center mb-2">
-            <label class="text-sm font-medium text-muted">نوع القطعة:</label>
+            <label class="text-sm font-medium text-muted">{{ t('sale.itemTypeLabel') }}</label>
             <button
               type="button"
               class="text-xs text-amber-600 underline"
               @click="isManualPrice = !isManualPrice"
             >
-              {{ isManualPrice ? 'استخدام سعر السوق التلقائي' : 'تحديد سعر الجرام يدوياً' }}
+              {{ isManualPrice ? t('sale.autoPrice') : t('sale.manualPrice') }}
             </button>
           </div>
 
@@ -240,7 +242,7 @@ onMounted(() => {
             type="number"
             min="0"
             icon="i-lucide-dollar-sign"
-            placeholder="أدخل سعر جرام الشراء المعتمد"
+            :placeholder="t('sale.manualPricePlaceholder')"
           />
         </div>
 
@@ -250,7 +252,7 @@ onMounted(() => {
             name="i-lucide-info"
             class="w-5 h-5 text-amber-500 shrink-0"
           />
-          <span>تنبيه: بيع الذهب المستعمل يحسب على سعر الذهب الصافي فقط بدون مصنعية أو ضريبة قيمة مضافة.</span>
+          <span>{{ t('sale.noVatNotice') }}</span>
         </div>
 
         <!-- زر فتح الفاتورة والتقييم -->
@@ -262,7 +264,7 @@ onMounted(() => {
           class="font-bold mt-4"
           @click="isDrawerOpen = true"
         >
-          عرض القيمة العادلة والتقييم
+          {{ t('sale.showEvaluation') }}
         </UButton>
       </div>
     </UCard>
@@ -270,8 +272,8 @@ onMounted(() => {
     <!-- Drawer الفاتورة والنتيجة -->
     <UDrawer
       v-model:open="isDrawerOpen"
-      title="تقييم المستحقات وقيمة البيع"
-      description="مقارنة العرض المقدم بقيمة الذهب الصافي بالسوق"
+      :title="t('sale.drawerTitle')"
+      :description="t('sale.drawerDesc')"
     >
       <template #body>
         <div class="space-y-4 p-2">
@@ -310,19 +312,19 @@ onMounted(() => {
               v-if="buyerOfferPrice"
               class="flex justify-between items-center p-2 bg-amber-500/10 rounded-lg text-amber-700 dark:text-amber-400 font-bold"
             >
-              <span>المبلغ المعروض من الصائغ:</span>
+              <span>{{ t('sale.buyerOffer') }}</span>
               <span class="text-base">{{ buyerOfferPrice.toFixed(2) }} ر.س</span>
             </div>
 
             <div class="flex justify-between text-muted">
-              <span>سعر شراء الجرام الصافي (عيار {{ selectedKarat }}):</span>
+              <span>{{ t('sale.buyPrice', { n: selectedKarat }) }}:</span>
               <span class="font-semibold text-foreground">
                 {{ currentGramPrice ? `${currentGramPrice.toFixed(2)} ر.س` : '---' }}
               </span>
             </div>
 
             <div class="flex justify-between text-muted">
-              <span>الوزن الصافي (بعد خصم الفصوص):</span>
+              <span>{{ t('sale.netWeight') }}</span>
               <span class="font-semibold text-foreground">
                 {{ netWeight.toFixed(2) }} جرام
               </span>
@@ -331,7 +333,7 @@ onMounted(() => {
             <USeparator />
 
             <div class="flex justify-between text-muted">
-              <span>قيمة الذهب الخالص:</span>
+              <span>{{ t('sale.rawGoldValue') }}</span>
               <span class="font-semibold text-foreground">
                 {{ rawGoldTotal.toFixed(2) }} ر.س
               </span>
@@ -341,7 +343,7 @@ onMounted(() => {
               v-if="cashbackTotal > 0"
               class="flex justify-between text-muted"
             >
-              <span>استرداد مصنعية السبيكة التقديري:</span>
+              <span>{{ t('sale.cashback') }}</span>
               <span class="font-semibold text-foreground">
                 {{ cashbackTotal.toFixed(2) }} ر.س
               </span>
@@ -350,7 +352,7 @@ onMounted(() => {
             <USeparator class="my-2" />
 
             <div class="flex justify-between items-center text-base font-black">
-              <span>القيمة العادلة المستحقة لك:</span>
+              <span>{{ t('sale.fairValue') }}</span>
               <span class="text-xl text-amber-600">
                 {{ fairGrandTotal.toFixed(2) }} ر.س
               </span>
@@ -364,9 +366,10 @@ onMounted(() => {
           block
           color="neutral"
           variant="outline"
+          class="mb-5 py-2"
           @click="isDrawerOpen = false"
         >
-          إغلاق الفاتورة
+          {{ t('sale.closeInvoice') }}
         </UButton>
       </template>
     </UDrawer>

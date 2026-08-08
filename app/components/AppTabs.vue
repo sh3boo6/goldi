@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n()
 const { items } = useNavigation()
 const { extraPages } = useExtraPages()
 </script>
@@ -46,7 +47,7 @@ const { extraPages } = useExtraPages()
             name="i-lucide-plus"
             class="w-6 h-6 text-default"
           />
-          <span class="text-xs mt-1 text-default">المزيد</span>
+          <span class="text-xs mt-1 text-default">{{ t('nav.more') }}</span>
         </div>
       </UButton>
     </UDropdownMenu>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 
+const { t } = useI18n()
+
 // 1. الاتصال بمتجر الأسعار للتحقق من الاتصال
 const online = useOnline()
 const ratesStore = useRatesStore()
@@ -9,26 +11,26 @@ const { lastUpdated } = storeToRefs(ratesStore)
 // مميزات التطبيق الرئيسية
 const features = [
   {
-    title: 'أسعار حية ومباشرة',
-    description: 'ربط لحظي مع البورصات العالمية للذهب وسعر صرف الريال السعودي لضمان دقة الحسابات.',
+    title: t('about.feature1Title'),
+    description: t('about.feature1Desc'),
     icon: 'i-lucide-activity',
     color: 'amber'
   },
   {
-    title: 'تقييم عدالة السعر',
-    description: 'خوارزمية ذكية تقارن السعر المعروض من الصائغ بالسعر العادل في السوق لضمان عدم الغبن.',
+    title: t('about.feature2Title'),
+    description: t('about.feature2Desc'),
     icon: 'i-lucide-shield-check',
     color: 'emerald'
   },
   {
-    title: 'حساب المصنعية الآلي',
-    description: 'تقدير أجور التصنيع تلقائياً بناءً على تعقيد القطعة (سبائك، مشغولات سادة، زركون، أطقم فاخرة).',
+    title: t('about.feature3Title'),
+    description: t('about.feature3Desc'),
     icon: 'i-lucide-calculator',
     color: 'blue'
   },
   {
-    title: 'دعم العمل بدون إنترنت',
-    description: 'حفظ آخر أسعار محددة للتصفح والحساب في أي وقت ومن أي مكان.',
+    title: t('about.feature4Title'),
+    description: t('about.feature4Desc'),
     icon: 'i-lucide-wifi-off',
     color: 'purple'
   }
@@ -38,26 +40,25 @@ const features = [
 const steps = [
   {
     step: '1',
-    title: 'سعر الذهب الصافي',
-    description: 'جلب سعر أونصة الذهب عالمياً وتقسيمها لحساب سعر الجرام الدقيق لكل عيار (24، 22، 21، 18، 14).'
+    title: t('about.step1Title'),
+    description: t('about.step1Desc')
   },
   {
     step: '2',
-    title: 'إضافة المصنعية العادلة',
-    description: 'تحديد القيمة التقديرية لتصنيع القطعة حسب نوعها وحجمها مع تطبيق خصومات التجزئة للكميات.'
+    title: t('about.step2Title'),
+    description: t('about.step2Desc')
   },
   {
     step: '3',
-    title: 'حساب ضريبة VAT',
-    description: 'إضافة ضريبة القيمة المضافة (15%) على المشغولات المشتراة وفقاً للأنظمة المحلية.'
+    title: t('about.step3Title'),
+    description: t('about.step3Desc')
   }
 ]
 // use nuxt ui
 const socialLogos = [
   {
     src: '/img/avatar.png',
-    alt: 'me',
-    Company: '1'
+    alt: 'me'
   },
   {
     'icon': 'i-simple-icons-github',
@@ -116,10 +117,10 @@ onMounted(() => {
         >
       </div>
       <h1 class="text-3xl font-black text-foreground">
-        عن تطبيق برنامج الذهب
+        {{ t('about.title') }}
       </h1>
       <p class="text-muted max-w-xl mx-auto text-sm leading-relaxed">
-        منصتك الذكية والموثوقة لحساب أسعار الذهب وتقييم الشراء والبيع بكل شفافية ووضوح، لتتخذ قراراتك المالية بثقة وأمان.
+        {{ t('about.subtitle') }}
       </p>
     </div>
 
@@ -132,10 +133,10 @@ onMounted(() => {
         />
         <div class="space-y-1">
           <h2 class="text-lg font-bold text-foreground">
-            رؤيتنا
+            {{ t('about.visionTitle') }}
           </h2>
           <p class="text-sm text-muted leading-relaxed">
-            نهدف إلى حماية المستثمرين والمشترين في سوق الذهب المحلي من خلال توفير أداة تقييم فورية تعتمد على أسعار البورصة الحية وتفصل قيمة الذهب الخالص عن أجور المصنعية والضرائب.
+            {{ t('about.visionText') }}
           </p>
         </div>
       </div>
@@ -148,7 +149,7 @@ onMounted(() => {
           name="i-lucide-star"
           class="w-5 h-5 text-amber-500"
         />
-        لماذا تختار تطبيقنا؟
+        {{ t('about.whyUs') }}
       </h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -185,7 +186,7 @@ onMounted(() => {
             name="i-lucide-cpu"
             class="w-5 h-5 text-amber-500"
           />
-          كيف نحسب السعر العادل؟
+          {{ t('about.howTitle') }}
         </div>
       </template>
 
@@ -221,10 +222,10 @@ onMounted(() => {
           name="i-lucide-alert-circle"
           class="w-4 h-4 text-amber-500"
         />
-        إخلاء مسؤولية
+        {{ t('about.disclaimerTitle') }}
       </div>
       <p class="leading-relaxed">
-        الأسعار والمصنعيات المعروضة داخل التطبيق هي قيم استرشادية مبنية على متوسط أسعار البورصة العالمية والسوق المحلي. قد تختلف أجور المصنعية الفعلية من صائغ لآخر حسب الماركة والتشطيب.
+        {{ t('about.disclaimerText') }}
       </p>
     </div>
 
@@ -236,24 +237,25 @@ onMounted(() => {
         target="_blank"
         :aria-label="social['aria-label']"
       >
-        <UIcon
-          v-if="social.icon"
-          :name="social.icon"
-          class="size-10"
-        />
         <UAvatar
-          v-else
+          v-if="social.src"
           size="2xl"
           :src="social.src"
           :alt="social.alt"
         />
+        <UIcon
+          v-else
+          :name="social.icon"
+          class="size-10"
+        />
+
       </ULink>
     </UPageLogos>
 
     <!-- معلومات الإصدار والتواصل -->
     <div class="text-center pt-4 text-xs text-muted space-y-2">
-      <p>برنامج الذهب - الإصدار 1.0.0</p>
-      <p>© جميع الحقوق محفوظة {{ new Date().getFullYear() }}</p>
+      <p>{{ t('about.version') }}</p>
+      <p>{{ t('about.copyright', { year: new Date().getFullYear() }) }}</p>
     </div>
   </div>
 </template>
