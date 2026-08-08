@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { share, isSupported } = useShare()
+const { localePath } = useNavigation()
 
 const startShare = () => {
   share({
@@ -14,7 +15,7 @@ const startShare = () => {
   <div class="h-16 flex items-center justify-between border-b border-b-accented/20 bg-neutral px-8 fixed top-0 left-0 right-0 z-50 backdrop-blur-xs">
     <div class="flex items-center gap-4">
       <ULink
-        to="/"
+        :to="localePath('/')"
       >
         <img
           src="/img/logo.png"

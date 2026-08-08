@@ -6,7 +6,7 @@ export const useNavigation = () => {
   const route = useRoute()
   const { t, locale } = useI18n()
 
-  const localePath = (path: string) => (locale.value === 'ar' ? path : `/${locale.value}${path}`)
+  const localePath = (path: string) => `/${locale.value}${path}`
 
   const items = computed<NavigationMenuItem[]>(() => [
     {

@@ -1,1 +1,0 @@
-import{t as e}from"./BGQljgWL.js";var t=()=>e(`color-mode`).value;export{t};

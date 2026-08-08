@@ -34,7 +34,13 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'vercel',
     routeRules: {
-      '/': { redirect: '/ar' }
+      '/': { redirect: '/ar' },
+      '/buy': { redirect: '/ar/buy' },
+      '/sale': { redirect: '/ar/sale' },
+      '/about': { redirect: '/ar/about' },
+      '/intro': { redirect: '/ar/intro' },
+      '/settings': { redirect: '/ar/settings' },
+      '/zakah': { redirect: '/ar/zakah' }
     }
   },
 
