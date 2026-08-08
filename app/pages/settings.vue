@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia'
 
 // 1. استخدام متجر الأسعار
 const ratesStore = useRatesStore()
+const { sanitizeNumberInput } = useArabicNumbers()
 const { usdToSar, defaultKarat, autoVat, ingotCharge, plainCharge, fancyCharge, luxuriousCharge } = storeToRefs(ratesStore)
 
 // 2. التحكم في المظهر (Light / Dark / System)
@@ -199,33 +200,37 @@ const handleClearCache = () => {
           <div>
             <label class="block text-xs font-medium text-muted mb-1">السبائك والجنيهات:</label>
             <UInput
-              v-model.number="ingotCharge"
+              :model-value="ingotCharge"
               type="number"
               min="0"
+              @update:model-value="ingotCharge = sanitizeNumberInput($event)"
             />
           </div>
           <div>
             <label class="block text-xs font-medium text-muted mb-1">مشغولات سادة / خفيفة:</label>
             <UInput
-              v-model.number="plainCharge"
+              :model-value="plainCharge"
               type="number"
               min="0"
+              @update:model-value="plainCharge = sanitizeNumberInput($event)"
             />
           </div>
           <div>
             <label class="block text-xs font-medium text-muted mb-1">مشغولات منقوشة / زركون:</label>
             <UInput
-              v-model.number="fancyCharge"
+              :model-value="fancyCharge"
               type="number"
               min="0"
+              @update:model-value="fancyCharge = sanitizeNumberInput($event)"
             />
           </div>
           <div>
             <label class="block text-xs font-medium text-muted mb-1">أطقم فاخرة / مناسبات:</label>
             <UInput
-              v-model.number="luxuriousCharge"
+              :model-value="luxuriousCharge"
               type="number"
               min="0"
+              @update:model-value="luxuriousCharge = sanitizeNumberInput($event)"
             />
           </div>
         </div>
