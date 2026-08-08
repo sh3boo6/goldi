@@ -1,4 +1,4 @@
-globalThis.__timing__.logStart('Load chunks/routes/api/gold.get');import { k as defineEventHandler } from '../../nitro/nitro.mjs';
+import { k as defineEventHandler } from '../../nitro/nitro.mjs';
 import 'node:http';
 import 'node:https';
 import 'node:events';
@@ -61,5 +61,5 @@ const gold_get = defineEventHandler(async () => {
   };
 });
 
-export { gold_get as default };;globalThis.__timing__.logEnd('Load chunks/routes/api/gold.get');
+export { gold_get as default };
 //# sourceMappingURL=gold.get.mjs.map

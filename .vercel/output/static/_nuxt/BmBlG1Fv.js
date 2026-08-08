@@ -1,0 +1,1 @@
+import{In as e}from"./CCkO2a_1.js";var t=`gold-app-intro-shown`,n=()=>{let n=e(!1);{let e=localStorage.getItem(t);e!==null&&(n.value=e===`true`)}let r=e(n.value);return{hasShownIntro:n,isIntroVisible:r,markIntroAsShown:()=>{n.value=!0,localStorage.setItem(t,`true`)},resetIntro:()=>{n.value=!1,r.value=!1,localStorage.setItem(t,`false`)}}};export{n as t};

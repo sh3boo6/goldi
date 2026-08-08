@@ -1,0 +1,1 @@
+import{P as e}from"./CCkO2a_1.js";import{v as t,y as n}from"./DLRwPCI2.js";function r(r,i){let a=t(r),o=i?n(i):{};return e(()=>({...a.value,...o}))}export{r as t};

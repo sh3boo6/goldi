@@ -1,4 +1,4 @@
-globalThis.__timing__.logStart('Load chunks/nitro/nitro');import http from 'node:http';
+import http from 'node:http';
 import https from 'node:https';
 import { EventEmitter } from 'node:events';
 import { Buffer as Buffer$1 } from 'node:buffer';
@@ -2417,53 +2417,6 @@ function createHooks() {
   return new Hookable();
 }
 
-const isBrowser = "undefined" !== "undefined";
-function createDebugger(hooks, _options = {}) {
-  const options = {
-    inspect: isBrowser,
-    group: isBrowser,
-    filter: () => true,
-    ..._options
-  };
-  const _filter = options.filter;
-  const filter = typeof _filter === "string" ? (name) => name.startsWith(_filter) : _filter;
-  const _tag = options.tag ? `[${options.tag}] ` : "";
-  const logPrefix = (event) => _tag + event.name + "".padEnd(event._id, "\0");
-  const _idCtr = {};
-  const unsubscribeBefore = hooks.beforeEach((event) => {
-    if (filter !== void 0 && !filter(event.name)) {
-      return;
-    }
-    _idCtr[event.name] = _idCtr[event.name] || 0;
-    event._id = _idCtr[event.name]++;
-    console.time(logPrefix(event));
-  });
-  const unsubscribeAfter = hooks.afterEach((event) => {
-    if (filter !== void 0 && !filter(event.name)) {
-      return;
-    }
-    if (options.group) {
-      console.groupCollapsed(event.name);
-    }
-    if (options.inspect) {
-      console.timeLog(logPrefix(event), event.args);
-    } else {
-      console.timeEnd(logPrefix(event));
-    }
-    if (options.group) {
-      console.groupEnd();
-    }
-    _idCtr[event.name]--;
-  });
-  return {
-    /** Stop debugging and remove listeners */
-    close: () => {
-      unsubscribeBefore();
-      unsubscribeAfter();
-    }
-  };
-}
-
 const s$1=globalThis.Headers,i=globalThis.AbortController,l=globalThis.fetch||(()=>{throw new Error("[node-fetch-native] Failed to fetch: `globalThis.fetch` is not available!")});
 
 class FetchError extends Error {
@@ -3428,19 +3381,19 @@ async function dispose(driver) {
 const _assets = {
   ["i18n:0d0db12b.json"]: {
     import: () => import('../raw/0d0db12b.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"2b5a-zaH9eAtK9JXOXeC/pIVvudLAGw0\"","mtime":"2026-08-08T22:29:42.491Z"}
+    meta: {"type":"application/json","etag":"\"2b5a-zaH9eAtK9JXOXeC/pIVvudLAGw0\"","mtime":"2026-08-08T22:32:05.126Z"}
   },
   ["i18n:28423ab0.json"]: {
     import: () => import('../raw/28423ab0.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"2a22-4Le5Ie9puXrMDntvkG5EcBSCyhA\"","mtime":"2026-08-08T22:29:42.491Z"}
+    meta: {"type":"application/json","etag":"\"2a22-4Le5Ie9puXrMDntvkG5EcBSCyhA\"","mtime":"2026-08-08T22:32:05.126Z"}
   },
   ["i18n:2d359ec5.json"]: {
     import: () => import('../raw/2d359ec5.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"3276-76tJtFvxAnPziRNi9mXTxD6xqt0\"","mtime":"2026-08-08T22:29:42.490Z"}
+    meta: {"type":"application/json","etag":"\"3276-76tJtFvxAnPziRNi9mXTxD6xqt0\"","mtime":"2026-08-08T22:32:05.125Z"}
   },
   ["i18n:459c8237.json"]: {
     import: () => import('../raw/459c8237.mjs').then(r => r.default || r),
-    meta: {"type":"application/json","etag":"\"2469-rQ3vbMi2/0MFl8CvfmTkYoLdm/0\"","mtime":"2026-08-08T22:29:42.490Z"}
+    meta: {"type":"application/json","etag":"\"2469-rQ3vbMi2/0MFl8CvfmTkYoLdm/0\"","mtime":"2026-08-08T22:32:05.125Z"}
   }
 };
 
@@ -4342,7 +4295,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "fe0720a7-2a7c-403f-80fa-f8998afd3362",
+    "buildId": "97571dc8-6264-419e-a242-bc46c300eddd",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -6077,43 +6030,9 @@ const _QcE_ST_bUEQUMrYrTS0FngCYhkEmneGFEykkbdqRzW4 = (function(nitro) {
   });
 });
 
-const _Zk1DxBTTAwpMWC9QHYpxB16uhhD1EH1owb5LAEQh2hI = defineNitroPlugin((nitro) => {
-  createDebugger(nitro.hooks, { tag: "nitro-runtime" });
-});
-
-const globalTiming = globalThis.__timing__ || {
-  start: () => 0,
-  end: () => 0,
-  metrics: []
-};
-const timingMiddleware = eventHandler((event) => {
-  const start = globalTiming.start();
-  const _end = event.node.res.end;
-  event.node.res.end = function(chunk, encoding, cb) {
-    const metrics = [
-      ["Generate", globalTiming.end(start)],
-      ...globalTiming.metrics
-    ];
-    const serverTiming = metrics.map((m) => `-;dur=${m[1]};desc="${encodeURIComponent(m[0])}"`).join(", ");
-    if (!event.node.res.headersSent) {
-      event.node.res.setHeader("Server-Timing", serverTiming);
-    }
-    _end.call(event.node.res, chunk, encoding, cb);
-    return this;
-  }.bind(event.node.res);
-});
-const _aJRWxJlIgHBHjpaGK4hKytUf__MYkgedOdsFj3rWbqU = defineNitroPlugin((nitro) => {
-  nitro.h3App.stack.unshift({
-    route: "/",
-    handler: timingMiddleware
-  });
-});
-
 const plugins = [
   _OjFwwF6ZC_PMnLiM8zVzVwnIb5CFO45AOEHAFUMpj0,
-_QcE_ST_bUEQUMrYrTS0FngCYhkEmneGFEykkbdqRzW4,
-_Zk1DxBTTAwpMWC9QHYpxB16uhhD1EH1owb5LAEQh2hI,
-_aJRWxJlIgHBHjpaGK4hKytUf__MYkgedOdsFj3rWbqU
+_QcE_ST_bUEQUMrYrTS0FngCYhkEmneGFEykkbdqRzW4
 ];
 
 const collections = {
@@ -6390,5 +6309,5 @@ const listener = function(req, res) {
   return handler(req, res);
 };
 
-export { appHead as a, appId as b, appRootAttrs as c, appRootTag as d, appSpaLoaderAttrs as e, appSpaLoaderTag as f, appTeleportAttrs as g, appTeleportTag as h, buildAssetsURL as i, createError$1 as j, defineEventHandler as k, defineRenderHandler as l, destr as m, encodePath as n, getQuery as o, getResponseStatus as p, getResponseStatusText as q, getRouteRules as r, joinURL as s, listener as t, publicAssetsURL as u, useNitroApp as v, useRuntimeConfig as w };;globalThis.__timing__.logEnd('Load chunks/nitro/nitro');
+export { appHead as a, appId as b, appRootAttrs as c, appRootTag as d, appSpaLoaderAttrs as e, appSpaLoaderTag as f, appTeleportAttrs as g, appTeleportTag as h, buildAssetsURL as i, createError$1 as j, defineEventHandler as k, defineRenderHandler as l, destr as m, encodePath as n, getQuery as o, getResponseStatus as p, getResponseStatusText as q, getRouteRules as r, joinURL as s, listener as t, publicAssetsURL as u, useNitroApp as v, useRuntimeConfig as w };
 //# sourceMappingURL=nitro.mjs.map

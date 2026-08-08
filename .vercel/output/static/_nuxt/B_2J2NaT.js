@@ -1,0 +1,1 @@
+import{t as e}from"./CGt1AAcR.js";var t=()=>e(`color-mode`).value;export{t};
