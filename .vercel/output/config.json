@@ -62,28 +62,120 @@
       "dest": "/__fallback"
     },
     {
-      "src": "/settings",
-      "dest": "/settings"
+      "src": "/fr/zakah",
+      "dest": "/fr/zakah"
     },
     {
-      "src": "/sale",
-      "dest": "/sale"
+      "src": "/fr/settings",
+      "dest": "/fr/settings"
     },
     {
-      "src": "/intro",
-      "dest": "/intro"
+      "src": "/fr/sale",
+      "dest": "/fr/sale"
     },
     {
-      "src": "/buy",
-      "dest": "/buy"
+      "src": "/fr/intro",
+      "dest": "/fr/intro"
+    },
+    {
+      "src": "/fr/buy",
+      "dest": "/fr/buy"
+    },
+    {
+      "src": "/fr/about",
+      "dest": "/fr/about"
+    },
+    {
+      "src": "/fr",
+      "dest": "/fr"
+    },
+    {
+      "src": "/es/zakah",
+      "dest": "/es/zakah"
+    },
+    {
+      "src": "/es/settings",
+      "dest": "/es/settings"
+    },
+    {
+      "src": "/es/sale",
+      "dest": "/es/sale"
+    },
+    {
+      "src": "/es/intro",
+      "dest": "/es/intro"
+    },
+    {
+      "src": "/es/buy",
+      "dest": "/es/buy"
+    },
+    {
+      "src": "/es/about",
+      "dest": "/es/about"
+    },
+    {
+      "src": "/es",
+      "dest": "/es"
+    },
+    {
+      "src": "/en/zakah",
+      "dest": "/en/zakah"
+    },
+    {
+      "src": "/en/settings",
+      "dest": "/en/settings"
+    },
+    {
+      "src": "/en/sale",
+      "dest": "/en/sale"
+    },
+    {
+      "src": "/en/intro",
+      "dest": "/en/intro"
+    },
+    {
+      "src": "/en/buy",
+      "dest": "/en/buy"
+    },
+    {
+      "src": "/en/about",
+      "dest": "/en/about"
+    },
+    {
+      "src": "/en",
+      "dest": "/en"
+    },
+    {
+      "src": "/ar/zakah",
+      "dest": "/ar/zakah"
+    },
+    {
+      "src": "/ar/settings",
+      "dest": "/ar/settings"
+    },
+    {
+      "src": "/ar/sale",
+      "dest": "/ar/sale"
+    },
+    {
+      "src": "/ar/intro",
+      "dest": "/ar/intro"
+    },
+    {
+      "src": "/ar/buy",
+      "dest": "/ar/buy"
+    },
+    {
+      "src": "/ar/about",
+      "dest": "/ar/about"
+    },
+    {
+      "src": "/ar",
+      "dest": "/ar"
     },
     {
       "src": "/api/gold",
       "dest": "/api/gold"
-    },
-    {
-      "src": "/about",
-      "dest": "/about"
     },
     {
       "src": "/__nuxt_error",
@@ -96,6 +188,10 @@
     {
       "src": "/api/_nuxt_icon/(?<collection>[^/]+)",
       "dest": "/api/_nuxt_icon/[collection]"
+    },
+    {
+      "src": "/_i18n/(?<hash>[^/]+)/(?<locale>[^/]+)/messages.json",
+      "dest": "/_i18n/[hash]/[locale]/messages.json"
     },
     {
       "src": "/__nuxt_island/(?:.*)",

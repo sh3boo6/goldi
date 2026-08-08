@@ -32,7 +32,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-06-30',
 
   nitro: {
-    preset: 'vercel'
+    preset: 'vercel',
+    routeRules: {
+      '/': { redirect: '/ar' }
+    }
   },
 
   eslint: {

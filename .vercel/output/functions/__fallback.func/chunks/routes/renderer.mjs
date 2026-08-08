@@ -1,4 +1,4 @@
-globalThis.__timing__.logStart('Load chunks/routes//renderer');import { m as useRuntimeConfig, f as encodePath, b as buildAssetsURL, p as publicAssetsURL, a as defineRenderHandler, g as getQuery, c as createError, e as destr, j as getRouteRules, k as joinURL, i as getResponseStatusText, h as getResponseStatus, u as useNitroApp } from '../nitro/nitro.mjs';
+globalThis.__timing__.logStart('Load chunks/routes//renderer');import { w as useRuntimeConfig, n as encodePath, i as buildAssetsURL, u as publicAssetsURL, d as appRootTag, c as appRootAttrs, f as appSpaLoaderTag, e as appSpaLoaderAttrs, b as appId, l as defineRenderHandler, h as appTeleportTag, g as appTeleportAttrs, o as getQuery, j as createError, a as appHead, m as destr, r as getRouteRules, s as joinURL, q as getResponseStatusText, p as getResponseStatus, v as useNitroApp } from '../nitro/nitro.mjs';
 import { createHead as createHead$1, propsToString, renderSSRHead } from 'unhead/server';
 import { isRef, toValue } from 'vue';
 import { DeprecationsPlugin } from 'unhead/legacy';
@@ -12,6 +12,7 @@ import 'node:buffer';
 import 'node:fs';
 import 'node:path';
 import 'node:crypto';
+import 'vue-router';
 import '@iconify/utils';
 import 'consola';
 
@@ -94,22 +95,6 @@ function lazyCachedFunction(fn) {
 	};
 }
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[{"rel":"preconnect","href":"https://fonts.googleapis.com"},{"rel":"preconnect","href":"https://fonts.gstatic.com","crossorigin":""},{"rel":"stylesheet","href":"https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"}],"style":[],"script":[],"noscript":[]};
-
-const appRootTag = "div";
-
-const appRootAttrs = {"id":"__nuxt","class":"isolate"};
-
-const appTeleportTag = "div";
-
-const appTeleportAttrs = {"id":"teleports"};
-
-const appSpaLoaderTag = "div";
-
-const appSpaLoaderAttrs = {"id":"__nuxt-loader"};
-
-const appId = "nuxt-app";
-
 //#region src/runtime/utils/renderer/build-files.ts
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
@@ -174,7 +159,7 @@ function encodeForwardSlashes(str) {
 
 const renderSSRHeadOptions = {"omitLineBreaks":true};
 
-const entryFileName = "DIhvd2sg.js";
+const entryFileName = "CS8HU8xS.js";
 
 const _DRIVE_LETTER_START_RE = /^[A-Za-z]:\//;
 function normalizeWindowsPath(input = "") {

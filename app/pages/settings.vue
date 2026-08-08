@@ -16,8 +16,6 @@ const { locale, locales } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 
 const setLocale = (code: 'ar' | 'en' | 'fr' | 'es') => {
-  const cookie = useCookie('i18n_redirected')
-  cookie.value = code
   navigateTo(switchLocalePath(code))
 }
 
