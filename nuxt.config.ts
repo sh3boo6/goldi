@@ -1,9 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
   modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxt/fonts', '@vueuse/nuxt', '@pinia/nuxt', '@vite-pwa/nuxt'],
 
   devtools: {
     enabled: true
+  },
+
+  nitro: {
+    preset: 'vercel'
   },
 
   app: {
