@@ -22,8 +22,5 @@ onMounted(() => {
     <h1 class="text-3xl font-black text-amber-500">
       {{ $t('app.goldCalculator') }}
     </h1>
-    <p class="text-muted text-sm mt-2">
-      {{ $t('app.languageName') }}
-    </p>
   </div>
 </template>
